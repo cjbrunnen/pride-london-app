@@ -9,10 +9,14 @@
     "run-android":
       "node node_modules/react-native/local-cli/cli.js run-android --appId com.pridelondonapp.dev --variant devDebug",
     "test": "jest src",
-    "test:e2e": "yarn test:e2e:build && yarn test:e2e:run",
-    "test:e2e:dev": "detox test --reuse",
-    "test:e2e:run": "detox test -c ios.sim.debug",
-    "test:e2e:build": "detox build",
+    "test:e2e:ios": "yarn test:e2e:ios:build && yarn test:e2e:ios:run",
+    "test:e2e:ios:dev": "detox test --reuse",
+    "test:e2e:ios:run": "detox test -c ios.sim.debug",
+    "test:e2e:ios:build": "detox build -c ios.sim.debug",
+    "test:e2e:android":
+      "yarn test:e2e:android:build && yarn test:e2e:android:run",
+    "test:e2e:android:run": "detox test -c android.emu.debug",
+    "test:e2e:android:build": "detox build -c android.emu.debug",
     "precommit": "lint-staged",
     "lint": "eslint src",
     "flow": "flow src",
@@ -107,6 +111,14 @@
           "xcodebuild -project ios/PrideLondonApp.xcodeproj -scheme PrideLondonApp -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
         "type": "ios.simulator",
         "name": "iPhone 7"
+      },
+      "android.emu.debug": {
+        "binaryPath":
+          "android/app/build/outputs/apk/androidTest/alpha/debug/app-alpha-debug-androidTest.apk",
+        "build":
+          "cd android && ./gradlew assembleAlphaDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "type": "android.emulator",
+        "name": "Nexus_5X_API_27_x86"
       }
     }
   }
